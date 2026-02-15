@@ -1,4 +1,4 @@
-# 🤖 ESP32 4WD WiFi Rc Controller
+# 🚗 ESP32 4WD WiFi Rc Controller
 
 Complete ESP32-based WiFi Rc car with joystick control, MPU6050 balancing, OTA update, LED brightness control, and buzzer startup sound.
 
