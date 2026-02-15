@@ -1,102 +1,197 @@
-ESP32 4WD WiFi Robot Controller with MPU6050 + OTA + LED + Buzzer
-This project is a complete ESP32-based WiFi controlled 4WD robot system with:
-Web joystick control UI
-Self-stabilizing mode using MPU6050
-OTA firmware upload via browser
-LED control with brightness slider
-Startup melody buzzer
-Motor watchdog safety stop
-📦 Hardware Required
-Component
-Quantity
-ESP32 Dev Board
-1
-L298N Motor Driver
-1
-DC Motors
-4
-MPU6050 Gyroscope
-1
-LED
-1
-Resistor (220Ω recommended)
-1
-Buzzer (Active or Passive)
-1
-Battery Pack
-1
-🔌 Pin Connections (Step-by-Step)
-1️⃣ Motor Driver → ESP32
-Left Motors (Front Left + Rear Left)
-L298N Pin
-ESP32 Pin
-IN1
-GPIO 27
-IN2
-GPIO 26
-ENA
-GPIO 14
-Right Motors (Front Right + Rear Right)
-L298N Pin
-ESP32 Pin
-IN3
-GPIO 33
-IN4
-GPIO 25
-ENB
-GPIO 32
-Power
-L298N
-Connection
-12V
-Battery +
-GND
-Battery – AND ESP32 GND
-⚠️ Important:
-ESP32 GND must be connected to motor driver GND
-2️⃣ MPU6050 Sensor → ESP32
-MPU6050
-ESP32
-VCC
-3.3V
-GND
-GND
-SDA
-GPIO 21
-SCL
-GPIO 22
-3️⃣ LED → ESP32
-LED Pin
-ESP32
-Anode (+)
-GPIO 12 through resistor
-Cathode (–)
-GND
-4️⃣ Buzzer → ESP32
-Buzzer Pin
-ESP32
-Positive
-GPIO 13
-Negative
-GND
-📡 WiFi Access Point
-When ESP32 boots, it creates a WiFi hotspot:
-Copy code
+# 🤖 ESP32 4WD WiFi Robot Controller
 
+Complete ESP32-based WiFi robot with joystick control, MPU6050 balancing, OTA update, LED brightness control, and buzzer startup sound.
+
+---
+
+## 📦 Features
+- Web joystick control
+- Self-stabilizing mode
+- OTA firmware upload
+- LED toggle + brightness slider
+- Startup melody buzzer
+- Motor auto-stop safety
+
+---
+
+## 🧰 Hardware List
+
+| Component | Qty |
+|----------|-----|
+ESP32 Board | 1 |
+L298N Motor Driver | 1 |
+DC Motors | 4 |
+MPU6050 | 1 |
+LED | 1 |
+Resistor 220Ω | 1 |
+Buzzer | 1 |
+Battery Pack | 1 |
+
+---
+
+## 🔌 Wiring Guide
+
+### 🔹 Motor Driver → ESP32
+
+**Left Motors**
+
+| Driver | ESP32 |
+|--------|------|
+IN1 | GPIO27 |
+IN2 | GPIO26 |
+ENA | GPIO14 |
+
+**Right Motors**
+
+| Driver | ESP32 |
+|--------|------|
+IN3 | GPIO33 |
+IN4 | GPIO25 |
+ENB | GPIO32 |
+
+---
+
+### 🔹 Power Wiring
+
+| Device | Connection |
+|------|-------------|
+Motor Driver 12V | Battery + |
+Motor Driver GND | Battery – |
+ESP32 GND | SAME GND |
+
+⚠ **Important:** All grounds must be connected together.
+
+---
+
+### 🔹 MPU6050 → ESP32
+
+| MPU6050 | ESP32 |
+|---------|------|
+VCC | 3.3V |
+GND | GND |
+SDA | GPIO21 |
+SCL | GPIO22 |
+
+---
+
+### 🔹 LED → ESP32
+
+| LED | ESP32 |
+|-----|------|
++ | GPIO12 via resistor |
+– | GND |
+
+---
+
+### 🔹 Buzzer → ESP32
+
+| Buzzer | ESP32 |
+|--------|------|
++ | GPIO13 |
+– | GND |
+
+---
+
+## 📡 WiFi Connection
+
+After boot ESP32 creates hotspot:
+
+```
 SSID: Rc4v
 Password: 12345678
-Connect your phone to this network, then open browser:
-Copy code
+```
 
+Open browser:
+
+```
 http://192.168.4.1
-🎮 Controls
-Joystick
-Controls movement direction and speed.
-LED Button
-Tap → ON/OFF
-Long Press → Brightness Slider
-Settings Menu
-Self Stabilize mode
-Guide page
-Theme switch
-OTA Upload
+```
+
+---
+
+## 🎮 Controls
+
+| Action | Result |
+|------|--------|
+Move joystick | Drive robot |
+Tap LED button | Toggle LED |
+Hold LED button | Brightness slider |
+Settings | Open menu |
+
+---
+
+## ⚖ Stabilization Mode
+
+Uses MPU6050 + PID balancing.
+
+Tune values in code:
+
+```cpp
+float Kp = 25.0;
+float Ki = 0.5;
+float Kd = 1.0;
+```
+
+---
+
+## 🔊 Startup Sound
+
+Robot plays 5-tone melody when powered on.
+
+---
+
+## 🛑 Safety
+
+If signal stops for **3 seconds**  
+→ Motors auto stop
+
+---
+
+## ⬆ OTA Update
+
+Open:
+
+```
+Settings → OTA Upload
+```
+
+Upload firmware directly from browser.
+
+---
+
+## 🧠 Movement Logic
+
+Joystick sends values:
+
+```
+x = turning
+y = forward/back
+```
+
+ESP32 converts → PWM → Motor driver → Motors move
+
+---
+
+## 📚 Libraries Required
+
+Install from Arduino Library Manager:
+
+- ArduinoJson  
+- MPU6050 (I2Cdev)  
+- Wire  
+
+---
+
+## 🛠 Troubleshooting
+
+| Issue | Fix |
+|------|-----|
+Robot not moving | Check motor battery |
+Sensor not detected | Check SDA/SCL |
+WiFi missing | Restart board |
+Motors reversed | Swap wires |
+
+---
+
+## 📜 License
+Free to use and modify.
