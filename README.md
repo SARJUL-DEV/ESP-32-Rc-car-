@@ -1,48 +1,43 @@
-# 🚗 ESP32 4WD WiFi Rc Controller
+# 🚗 ESP32 WiFi Smart Car (Normal + Stabilized Modes)
 
-Complete ESP32-based WiFi Rc car with joystick control, MPU6050 balancing, OTA update, LED brightness control, and buzzer startup sound.
-
----
-
-## 📦 Features
-- Web joystick control
-- Self-stabilizing mode
-- OTA firmware upload
-- LED toggle + brightness slider
-- Startup melody buzzer
-- Motor auto-stop safety
+ESP32 controlled smart car with web joystick control, stabilization system, OTA update, LED control, and buzzer startup tone.
 
 ---
 
-## 🧰 Hardware List
+## 📦 Main Features
 
-| Component | Qty |
-|----------|-----|
-ESP32 Board | 1 |
-L298N Motor Driver | 1 |
-DC Motors | 4 |
-MPU6050 | 1 |
-LED | 1 |
-Resistor 220Ω | 1 |
-Buzzer | 1 |
-Battery Pack | 1 |
+- Web control from phone browser
+- Two drive modes
+  - Normal drive mode
+  - Stabilized mode (sensor assisted)
+- LED toggle + brightness
+- OTA firmware update
+- Motor safety timeout
+- Startup sound
 
 ---
 
-## 🔌 Wiring Guide
+## 🎮 Drive Modes
 
-### 🔹 Motor Driver → ESP32
+| Mode | Function |
+|------|----------|
+Normal Mode | Standard driving |
+Stabilized Mode | Uses sensor to maintain balance |
 
-**Left Motors**
+---
 
+## 🔌 Wiring Connections
+
+### Motor Driver → ESP32
+
+#### Left Wheels
 | Driver | ESP32 |
 |--------|------|
 IN1 | GPIO27 |
 IN2 | GPIO26 |
 ENA | GPIO14 |
 
-**Right Motors**
-
+#### Right Wheels
 | Driver | ESP32 |
 |--------|------|
 IN3 | GPIO33 |
@@ -51,19 +46,19 @@ ENB | GPIO32 |
 
 ---
 
-### 🔹 Power Wiring
+### Power
 
-| Device | Connection |
-|------|-------------|
-Motor Driver 12V | Battery + |
+| Device | Connect |
+|--------|--------|
+Motor Driver + | Battery + |
 Motor Driver GND | Battery – |
 ESP32 GND | SAME GND |
 
-⚠ **Important:** All grounds must be connected together.
+**All grounds must be common**
 
 ---
 
-### 🔹 MPU6050 → ESP32
+### MPU6050 Sensor
 
 | MPU6050 | ESP32 |
 |---------|------|
@@ -74,16 +69,16 @@ SCL | GPIO22 |
 
 ---
 
-### 🔹 LED → ESP32
+### LED
 
 | LED | ESP32 |
 |-----|------|
-+ | GPIO12 via resistor |
++ | GPIO12 |
 – | GND |
 
 ---
 
-### 🔹 Buzzer → ESP32
+### Buzzer
 
 | Buzzer | ESP32 |
 |--------|------|
@@ -92,9 +87,7 @@ SCL | GPIO22 |
 
 ---
 
-## 📡 WiFi Connection
-
-After boot ESP32 creates hotspot:
+## 📡 WiFi Access Point
 
 ```
 SSID: Rc4v
@@ -104,94 +97,58 @@ Password: 12345678
 Open browser:
 
 ```
-http://192.168.4.1
+192.168.4.1
 ```
 
 ---
 
-## 🎮 Controls
+## ⚙ Controls
 
 | Action | Result |
 |------|--------|
-Move joystick | Drive robot |
-Tap LED button | Toggle LED |
-Hold LED button | Brightness slider |
-Settings | Open menu |
+Move joystick | Drive car |
+Tap LED button | Toggle light |
+Hold LED | Brightness adjust |
+Settings | Open options |
 
 ---
 
-## ⚖ Stabilization Mode
+## 🛑 Safety System
 
-Uses MPU6050 + PID balancing.
+If signal lost for **3 seconds**
 
-Tune values in code:
-
-```cpp
-float Kp = 25.0;
-float Ki = 0.5;
-float Kd = 1.0;
-```
-
----
-
-## 🔊 Startup Sound
-
-Robot plays 5-tone melody when powered on.
-
----
-
-## 🛑 Safety
-
-If signal stops for **3 seconds**  
-→ Motors auto stop
+→ Motors stop automatically
 
 ---
 
 ## ⬆ OTA Update
 
-Open:
-
-```
-Settings → OTA Upload
-```
-
-Upload firmware directly from browser.
-
----
-
-## 🧠 Movement Logic
-
-Joystick sends values:
-
-```
-x = turning
-y = forward/back
-```
-
-ESP32 converts → PWM → Motor driver → Motors move
+Menu → OTA Upload  
+Upload new firmware wirelessly.
 
 ---
 
 ## 📚 Libraries Required
 
-Install from Arduino Library Manager:
+Install via Arduino Library Manager:
 
-- ArduinoJson  
-- MPU6050 (I2Cdev)  
-- Wire  
+- ArduinoJson
+- MPU6050 (I2Cdev)
+- Wire
 
 ---
 
 ## 🛠 Troubleshooting
 
-| Issue | Fix |
-|------|-----|
-Robot not moving | Check motor battery |
-Sensor not detected | Check SDA/SCL |
-WiFi missing | Restart board |
-Motors reversed | Swap wires |
+| Problem | Fix |
+|--------|-----|
+Car not moving | Check motor battery |
+Sensor error | Check SDA/SCL |
+WiFi missing | Restart ESP32 |
+Wrong direction | Swap motor wires |
 
 ---
 
 ## 📜 License
-Free to use and modify.
+
+Open source and free to modify.
